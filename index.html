@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naufal — Glass</title>
+
+<style>
+/* ===============================
+   THEME
+================================ */
+:root{
+  --glass: rgba(255,255,255,.35);
+  --border: rgba(255,255,255,.45);
+  --text:#0f172a;
+  --glow: rgba(99,102,241,.35);
+
+  --bg1:#a5b4fc;
+  --bg2:#fbcfe8;
+  --bg3:#eef2ff;
+  --bg4:#fdf2f8;
+}
+
+body.dark{
+  --glass: rgba(15,23,42,.6);
+  --border: rgba(255,255,255,.12);
+  --text:#f8fafc;
+  --glow: rgba(236,72,153,.35);
+
+  --bg1:#1e293b;
+  --bg2:#020617;
+  --bg3:#020617;
+  --bg4:#0f172a;
+}
+
+/* ===============================
+   BASE
+================================ */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top left,var(--bg1),transparent 40%),
+    radial-gradient(circle at bottom right,var(--bg2),transparent 40%),
+    linear-gradient(135deg,var(--bg3),var(--bg4));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial;
+  color:var(--text);
+  transition:1s;
+}
+
+/* ===============================
+   GLASS CARD
+================================ */
+.glass{
+  width:340px;
+  padding:30px;
+  border-radius:34px;
+  background:var(--glass);
+  backdrop-filter: blur(30px) saturate(180%);
+  border:1px solid var(--border);
+  box-shadow:
+    0 40px 120px rgba(0,0,0,.25),
+    0 0 80px var(--glow),
+    inset 0 1px 0 rgba(255,255,255,.4);
+  text-align:center;
+  animation: fadeUp 1s cubic-bezier(.22,1,.36,1);
+}
+
+/* ===============================
+   PROFILE
+================================ */
+.profile{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(255,255,255,.6);
+  margin-bottom:12px;
+}
+
+h1{
+  margin:6px 0 4px;
+  font-size:22px;
+  font-weight:600;
+}
+
+.bio{
+  font-size:14px;
+  opacity:.75;
+  margin-bottom:22px;
+}
+
+/* ===============================
+   LINKS
+================================ */
+.link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 18px;
+  margin:14px 0;
+  border-radius:24px;
+  background:rgba(255,255,255,.6);
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  transition:.35s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+
+body.dark .link{
+  background:rgba(15,23,42,.7);
+}
+
+.link:hover{
+  transform: translateY(-4px) scale(1.03);
+}
+
+.link:active{
+  transform:scale(.97);
+}
+
+/* ===============================
+   ICON SYSTEM (DETAIL DEFAULT)
+================================ */
+.link svg{
+  width:14px;
+  height:14px;
+  fill:currentColor;
+  opacity:.92;
+
+  /* depth + detail */
+  filter:
+    drop-shadow(0 .5px .6px rgba(0,0,0,.35))
+    drop-shadow(0 0 0 rgba(255,255,255,.4));
+
+  transform: scale(.96);
+  transition:.35s cubic-bezier(.22,1,.36,1);
+}
+
+.link:hover svg{
+  transform: scale(1);
+}
+
+/* Layered opacity (detail feel) */
+.ig-body{opacity:.9}
+.ig-dot{opacity:.6}
+
+.port-body{opacity:.88}
+
+.yt-body{opacity:.9}
+.yt-play{opacity:.7}
+
+/* ===============================
+   HOVER BRAND ACCENT (SUBTLE)
+================================ */
+.link:hover .ig-body{fill:#e75057}
+.link:hover .ig-dot{fill:#f77737}
+
+.x-icon{transition:.35s cubic-bezier(.22,1,.36,1)}
+.link:hover .x-icon{
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.link:hover .port-body{fill:#6366f1}
+
+.link:hover .yt-body{fill:#ff0033}
+.link:hover .yt-play{
+  fill:#ffffff;
+  transform: scale(1.15);
+}
+
+body.dark .link:hover .yt-body{fill:#ff3355}
+
+/* ===============================
+   DARK TOGGLE
+================================ */
+.toggle-wrap{
+  margin-top:36px;
+  display:flex;
+  justify-content:right;
+}
+
+.toggle-wrap input{display:none}
+
+.toggle{
+  width:62px;
+  height:30px;
+  border-radius:50px;
+  background:#d1d58b;
+  position:relative;
+  cursor:pointer;
+  transition:.4s cubic-bezier(.22,1,.36,1);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,.25);
+}
+
+.toggle::after{
+  content:"☀️";
+  position:absolute;
+  top:4px;
+  left:6px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  transition:.45s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 6px 15px rgba(0,0,0,.3);
+}
+
+.toggle-wrap input:checked + .toggle{
+  background:#6366f1;
+}
+
+.toggle-wrap input:checked + .toggle::after{
+  content:"🌙";
+  transform: translateX(30px) rotate(-15deg);
+  background:#020617;
+  color:#fff;
+}
+
+/* ===============================
+   ANIMATION
+================================ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="glass">
+  <img class="profile" src="https://i.imgur.com/9nI1L1G.png" alt="Profile">
+  <h1>Naufal</h1>
+  <p class="bio"> Student • Gamer • Beginner Programming</p>
+
+  <!-- Instagram -->
+  <a class="link" href=https://www.instagram.com/naufalms17?igsh=MXNlcjdmMmowZWR3Nw==" target="_blank">
+    <svg viewBox="0 0 24 24">
+  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5z"/>
+    stroke="currentColor" stroke-width=".6" stroke-opacity=".25"/>
+      <path class="ig-body" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"
+        stroke="currentColor" stroke-width=".5" stroke-opacity=".25"/>
+      <circle class="ig-dot" cx="17.2" cy="6.8" r="1"/>
+    </svg>
+    Instagram
+  </a>
+
+  <!-- YouTube -->
+  <a class="link" href="https://youtube.com/@naufal.c?si=KaZhwhOoZ7zO5kyB" target="_blank">
+       <svg viewBox="0 0 24 24">
+      <path class="yt-body"
+  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/>
+  <polygon points="9.5,8.5 16,12 9.5,15.5"/>
+        stroke="currentColor" stroke-width=".6" stroke-opacity=".25"/>
+      <path class="yt-play"
+        d="M11 6.5v7l6-3.5-6-3.5z"
+        stroke="currentColor" stroke-width=".4" stroke-opacity=".25"/>
+    </svg>
+    YouTube
+  </a>
+  <!-- X -->
+  <a class="link" href="https://x.com/miftahusyiffa" target="_blank">
+    <svg class="x-icon" viewBox="0 0 24 24">
+      <path d="M18.244 2H21l-6.52 7.45L22 22h-6.828l-5.342-6.906L3.73 22H1l7.01-8.02L2 2h6.828l4.828 6.236z"
+        stroke="currentColor" stroke-width=".6" stroke-opacity=".25"/>
+    </svg>
+    X
+  </a>
+
+  <!-- Portfolio -->
+  <a class="link" href="https://portfolio-lo.vercel.app" target="_blank">
+    <svg viewBox="0 0 24 24">
+      <path class="port-body" d="M9 2h6a2 2 0 0 1 2 2v2h4a1 1 0 0 1 1 1v3H2V7a1 1 0 0 1 1-1h4V4a2 2 0 0 1 2-2z"
+        stroke="currentColor" stroke-width=".6" stroke-opacity=".25"/>
+      <path class="port-body" d="M2 11h20v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9z"
+        stroke="currentColor" stroke-width=".6" stroke-opacity=".25"/>
+    </svg>
+    Portfolio
+  </a>
+
+
+  <div class="toggle-wrap">
+    <input type="checkbox" id="darkToggle">
+    <label for="darkToggle" class="toggle"></label>
+  </div>
+</div>
+
+<script>
+const t=document.getElementById("darkToggle");
+if(localStorage.getItem("darkMode")==="on"){
+  document.body.classList.add("dark");
+  t.checked=true;
+}
+t.addEventListener("change",()=>{
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode",t.checked?"on":"off");
+});
+</script>
+
+</body>
+</html> 
