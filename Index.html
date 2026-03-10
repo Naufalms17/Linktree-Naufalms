@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naufal — linktree</title>
+
+<style>
+/* ===============================
+   ENHANCED THEME
+================================ */
+:root {
+  --glass: rgba(255, 255, 255, 0.25);
+  --border: rgba(255, 255, 255, 0.4);
+  --text: #0f172a;
+  --glow: rgba(99, 102, 241, 0.4);
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.2);
+  
+  --bg1: #a5b4fc;
+  --bg2: #fbcfe8;
+  --bg3: linear-gradient(135deg, #eef2ff, #fdf2f8);
+  
+  --link-bg: rgba(255, 255, 255, 0.7);
+  --link-hover: rgba(99, 102, 241, 0.1);
+  
+  --copyright-bg: rgba(255, 255, 255, 0.15);
+  --copyright-border: rgba(255, 255, 255, 0.2);
+}
+
+body.dark {
+  --glass: rgba(15, 23, 42, 0.3);
+  --border: rgba(255, 255, 255, 0.15);
+  --text: #f8fafc;
+  --glow: rgba(236, 72, 153, 0.4);
+  --accent: #ec4899;
+  --accent-glow: rgba(236, 72, 153, 0.2);
+  
+  --bg1: #1e293b;
+  --bg2: #020617;
+  --bg3: linear-gradient(135deg, #0f172a, #1e293b);
+  
+  --link-bg: rgba(15, 23, 42, 0.6);
+  --link-hover: rgba(236, 72, 153, 0.15);
+  
+  --copyright-bg: rgba(15, 23, 42, 0.25);
+  --copyright-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ===============================
+   BASE ENHANCEMENTS
+================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 20%, var(--bg1), transparent 40%),
+    radial-gradient(circle at 80% 80%, var(--bg2), transparent 40%),
+    var(--bg3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+  flex-direction: column;
+}
+
+/* Animated background particles */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.05) 0%, transparent 20%);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 20s infinite linear;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-10px, 10px) rotate(1deg); }
+  50% { transform: translate(5px, -5px) rotate(-1deg); }
+  75% { transform: translate(10px, 5px) rotate(1deg); }
+}
+
+/* ===============================
+   ENHANCED GLASS CARD
+================================ */
+.glass {
+  width: 380px;
+  max-width: 90vw;
+  padding: 40px 35px;
+  border-radius: 32px;
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 0 100px var(--glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  text-align: center;
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin-bottom: 30px;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.6), 
+    transparent);
+  z-index: 2;
+}
+
+/* ===============================
+   COPYRIGHT LABEL (Outside Glass)
+================================ */
+.copyright {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 20px;
+  background: var(--copyright-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--copyright-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  opacity: 0.8;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.copyright::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  transition: left 0.6s ease;
+}
+
+.copyright:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px var(--accent-glow),
+    0 0 20px var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.copyright:hover::before {
+  left: 100%;
+}
+
+.copyright span {
+  display: inline-block;
+  margin: 0 4px;
+  transition: transform 0.3s ease;
+}
+
+.copyright:hover span:nth-child(1) {
+  transform: translateY(-1px);
+}
+
+.copyright:hover span:nth-child(3) {
+  transform: translateY(1px);
+}
+
+/* ===============================
+   PROFILE ENHANCEMENTS
+================================ */
+.profile-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 20px;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(135deg, var(--accent), transparent);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.profile-container::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), transparent);
+  opacity: 0.6;
+  filter: blur(12px);
+  animation: rotate 6s linear infinite;
+  z-index: 0;
+}
+
+.profile:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+h1 {
+  margin: 16px 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--text), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bio {
+  font-size: 15px;
+  opacity: 0.85;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ===============================
+   ENHANCED LINKS
+================================ */
+.links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-radius: 20px;
+  background: var(--link-bg);
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.6s ease;
+}
+
+.link:hover {
+  transform: translateY(-6px);
+  background: var(--link-hover);
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--accent-glow),
+    0 0 30px var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.link:hover::before {
+  left: 100%;
+}
+
+.link:active {
+  transform: translateY(-2px) scale(0.98);
+  transition: transform 0.1s;
+}
+
+.link-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* ===============================
+   ENHANCED ICONS
+================================ */
+.link svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link:hover svg {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Brand-specific hovers */
+.ig-path { opacity: 0.9; }
+.link:hover .ig-path { fill: #e1306c; }
+
+.x-path { opacity: 0.9; }
+.link:hover .x-path { 
+  fill: #000000;
+  animation: x-twist 0.5s ease;
+}
+
+.port-path { opacity: 0.9; }
+.link:hover .port-path { fill: #6366f1; }
+
+.yt-body { opacity: 0.9; }
+.yt-play { opacity: 0.7; }
+.link:hover .yt-body { fill: #ff0033; }
+.link:hover .yt-play { fill: #ffffff; }
+
+body.dark .link:hover .yt-body { fill: #ff3355; }
+body.dark .x-path { fill: #ffffff; }
+body.dark .link:hover .x-path { fill: #000000; }
+
+@keyframes x-twist {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* ===============================
+   ENHANCED DARK TOGGLE
+================================ */
+.toggle-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 50px;
+  background: var(--link-bg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.toggle-switch {
+  width: 56px;
+  height: 28px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #d1d5db, #9ca3af);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-switch::before {
+  content: "☀️";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.toggle-checkbox:checked + .toggle-switch {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.toggle-checkbox:checked + .toggle-switch::before {
+  content: "🌙";
+  transform: translateX(26px) rotate(360deg);
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.toggle-checkbox:checked ~ .toggle-label {
+  opacity: 1;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===============================
+   RESPONSIVE ENHANCEMENTS
+================================ */
+@media (max-width: 480px) {
+  .glass {
+    padding: 30px 25px;
+    border-radius: 28px;
+  }
+  
+  .profile-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  .link {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  
+  .copyright {
+    padding: 10px 20px;
+    font-size: 12px;
+    max-width: 90vw;
+  }
+}
+
+/* Loading animation */
+.glass::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  animation: loading 2s infinite;
+  z-index: -1;
+}
+
+@keyframes loading {
+  to { left: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glass">
+  <div class="profile-container">
+    <img class="profile" src="https://imgur.com/9nI1L1G.png" alt="Profile Picture" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Naufal&backgroundType=gradientLinear'">
+  </div>
+  
+  <h1>Naufal</h1>
+  <p class="bio"> graduate • gamer • open to work</p>
+
+  <div class="links-container">
+    <!-- Instagram -->
+    <a class="link" href=https://www.instagram.com/naufalms17?igsh=MXNlcjdmMmowZWR3Nw==" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24">
+          <path class="ig-path" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </div>
+      <span>Instagram</span>
+    </a>
+
+    <!-- X -->
+    <a class="link" href="https://x.com/miftahusyiffa" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24">
+          <path class="x-path" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </div>
+      <span>X (Twitter)</span>
+    </a>
+
+    <!-- Portfolio -->
+    <a class="link" href="https://portfolio-lo.vercel.app" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24">
+          <path class="port-path" d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/>
+        </svg>
+      </div>
+      <span>Portfolio</span>
+    </a>
+
+    <!-- YouTube -->
+    <a class="link" href="https://youtube.com/@naufal.c?si=IHkDMuY6Yvg8Mcvy" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24">
+          <path class="yt-body" d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+        </svg>
+      </div>
+      <span>YouTube</span>
+    </a>
+  </div>
+
+  <div class="toggle-container">
+    <input type="checkbox" id="darkToggle" class="toggle-checkbox">
+    <label for="darkToggle" class="toggle-switch"></label>
+  </div>
+</div>
+
+<!-- Copyright Label (Outside Glass) -->
+<div class="copyright">
+  <span>©</span> 
+  <span id="currentYear">2026</span>
+  <span>Naufal • All Rights Reserved</span>
+</div>
+
+<script>
+// Enhanced dark mode with smooth transitions
+const darkToggle = document.getElementById('darkToggle');
+const body = document.body;
+
+// Set current year for copyright
+const currentYear = document.getElementById('currentYear');
+currentYear.textContent = new Date().getFullYear();
+
+// Check saved preference
+if (localStorage.getItem('darkMode') === 'enabled') {
+  enableDarkMode();
+  darkToggle.checked = true;
+}
+
+// Toggle dark mode with animation
+darkToggle.addEventListener('change', () => {
+  if (darkToggle.checked) {
+    enableDarkMode();
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    disableDarkMode();
+    localStorage.setItem('darkMode', 'disabled');
+  }
+});
+
+function enableDarkMode() {
+  body.style.transition = 'background 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+  body.classList.add('dark');
+  // Add subtle animation class
+  body.classList.add('dark-transition');
+  setTimeout(() => body.classList.remove('dark-transition'), 800);
+}
+
+function disableDarkMode() {
+  body.style.transition = 'background 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+  body.classList.remove('dark');
+}
+
+// Add click ripple effect to links
+document.querySelectorAll('.link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      width: ${size}px;
+      height: ${size}px;
+      top: ${y}px;
+      left: ${x}px;
+      pointer-events: none;
+    `;
+    
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+// Add click ripple effect to copyright too
+const copyright = document.querySelector('.copyright');
+copyright.addEventListener('click', function(e) {
+  const ripple = document.createElement('span');
+  const rect = this.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = e.clientX - rect.left - size / 2;
+  const y = e.clientY - rect.top - size / 2;
+  
+  ripple.style.cssText = `
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    width: ${size}px;
+    height: ${size}px;
+    top: ${y}px;
+    left: ${x}px;
+    pointer-events: none;
+    z-index: -1;
+  `;
+  
+  this.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+});
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  
+  .dark-transition {
+    animation: darkPulse 0.8s ease;
+  }
+  
+  @keyframes darkPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.95; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>  
